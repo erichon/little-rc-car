@@ -7,6 +7,9 @@ function goForward () {
 input.onButtonPressed(Button.A, function () {
     turn_left()
 })
+function beep_off () {
+    pins.digitalWritePin(DigitalPin.P2, 0)
+}
 function callStopTurn () {
     servos.P0.stop()
     servos.P1.stop()
@@ -25,7 +28,7 @@ function turn () {
     servos.P1.setAngle(angle)
 }
 input.onButtonPressed(Button.AB, function () {
-    beep()
+    beep_on()
     callStop()
 })
 input.onButtonPressed(Button.B, function () {
@@ -49,14 +52,19 @@ radio.onReceivedValue(function (name, value) {
         angle = (value - 124) / 777 * 180
         turn()
     }
+    if (name == "beep") {
+        if (value == 1) {
+            beep_on()
+        } else {
+            beep_off()
+        }
+    }
 })
 function turn_right () {
     servos.P1.setAngle(1)
 }
-function beep () {
+function beep_on () {
     pins.digitalWritePin(DigitalPin.P2, 1)
-    basic.pause(2000)
-    pins.digitalWritePin(DigitalPin.P2, 0)
 }
 let angle = 0
 let speed = 0
