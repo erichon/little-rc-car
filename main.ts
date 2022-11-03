@@ -15,7 +15,7 @@ function callStopTurn () {
     servos.P1.stop()
 }
 function turn_left () {
-    servos.P1.setAngle(179)
+    servos.P1.setAngle(150)
 }
 function init () {
     servos.P0.run(1)
@@ -49,7 +49,7 @@ radio.onReceivedValue(function (name, value) {
         }
     }
     if (name == "LR") {
-        angle = (value - 124) / 777 * 180
+        angle = Math.round(Math.map(value, 0, 1023, 0, 180))
         turn()
     }
     if (name == "beep") {
@@ -61,7 +61,7 @@ radio.onReceivedValue(function (name, value) {
     }
 })
 function turn_right () {
-    servos.P1.setAngle(1)
+    servos.P1.setAngle(30)
 }
 function beep_on () {
     pins.digitalWritePin(DigitalPin.P2, 1)
